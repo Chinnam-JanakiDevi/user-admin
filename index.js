@@ -111,7 +111,7 @@ app.get('/viewusers', async (req, res) => {
   try {
     // Fetch all users from the database
     const users = await userlogin.find();
-    console.log(users);
+    // console.log(users);
     // Render the viewusers.ejs template with the users data
     res.render('viewusers', { users });
   } catch (error) {
@@ -120,7 +120,73 @@ app.get('/viewusers', async (req, res) => {
   }
 });
 
+// Assuming you have an Express app instance named 'app'
+app.get('/view_user/:email', async (req, res) => {
+  try {
+    const email = req.params.email;
 
+    // Fetch user details from the database based on the email
+    const user = await userlogin.findOne({ email });
+    // console.log(user);
+    if (!user) {
+      // If user not found, handle accordingly (e.g., redirect to an error page)
+      return res.status(404).send('User not found');
+    }
+
+    // Render the user details in the side nav
+    const userDetailsHTML = `
+          <h2>${user.name}</h2>
+          <p>Email: ${user.email}</p>
+          <img src="/images/${user.image}" alt="Profile Image" width="100px" height="100px">
+          <h1 style="color:red;">Status: ${user.status}</h1>
+
+          <!-- Add more details as needed -->
+      `;
+
+    // Send the user details HTML to the client
+    res.send(userDetailsHTML);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/accept_user/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+      // Update the user status to "Accepted By Admin"
+      const updatedUser = await userlogin.findByIdAndUpdate(userId, { status: 'Accepted By Admin' }, { new: true });
+
+      if (!updatedUser) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Send a JSON response indicating success
+      res.json({ message: 'User accepted successfully.' });
+  } catch (error) {
+      console.error('Error during acceptance:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.post('/delete_user/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+      // Update the user status to "Not Accepted By Admin"
+      const updatedUser = await userlogin.findByIdAndUpdate(userId, { status: 'Not Accepted By Admin' }, { new: true });
+
+      if (!updatedUser) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Send a JSON response indicating success
+      res.json({ message: 'User marked as not accepted by admin.' });
+  } catch (error) {
+      console.error('Error during deletion:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Multer configuration for image upload
 const storage = multer.diskStorage({

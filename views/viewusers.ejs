@@ -22,7 +22,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: left;
@@ -48,10 +49,15 @@
         button:hover {
             background-color: #0056b3;
         }
+        a{
+            font-size: 24px;
+        }
     </style>
 </head>
 
 <body>
+    <a href="/admindashboard">Back</a>
+
     <h2>View Users</h2>
 
     <table>
@@ -60,25 +66,92 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Profile Image</th>
+                <th>Status</th>
                 <th>Action</th>
                 <th>Action</th>
                 <!-- Add more table headers as needed -->
             </tr>
         </thead>
         <tbody>
-            <% users.forEach(user => { %>
+            <% users.forEach(user=> { %>
                 <tr>
-                    <td><%= user._id %></td>
-                    <td><%= user.name %></td>
+                    <td>
+                        <%= user._id %>
+                    </td>
+                    <td>
+                        <%= user.name %>
+                    </td>
                     <td><img src="/images/<%= user.image %>" alt="Profile Image" width="50"></td>
-                    <td><button>Accept</button></td>
-                    <td><button>Delete</button></td>
+                    <td>
+                        <%= user.status %>
+                    </td>
+                    <td>
+                        <button class="accept-button" data-user-id="<%= user._id %>">Accept</button>
+                    </td>
+                    <td>
+                        <button class="delete-button" data-user-id="<%= user._id %>">Delete</button>
+                    </td>
                     <!-- Add more table cells as needed -->
                 </tr>
-            <% }); %>
+                <% }); %>
         </tbody>
-    </table>
 
+    </table>
+    <script>
+        // JavaScript code for making an asynchronous request
+        document.addEventListener('DOMContentLoaded', () => {
+            const acceptButtons = document.querySelectorAll('.accept-button');
+
+            acceptButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const userId = button.getAttribute('data-user-id');
+                    try {
+                        const response = await fetch(`/accept_user/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        });
+
+                        if (response.ok) {
+                            // Update the UI or provide feedback as needed
+                            console.log(`User ${userId} accepted successfully.`);
+                        } else {
+                            console.error(`Failed to accept user ${userId}.`);
+                        }
+                    } catch (error) {
+                        console.error('Error during acceptance:', error);
+                    }
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteButtons = document.querySelectorAll('.delete-button');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const userId = button.getAttribute('data-user-id');
+                    try {
+                        const response = await fetch(`/delete_user/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        });
+
+                        if (response.ok) {
+                            // Update the UI or provide feedback as needed
+                            console.log(`User ${userId} marked as not accepted by admin.`);
+                        } else {
+                            console.error(`Failed to mark user ${userId} as not accepted.`);
+                        }
+                    } catch (error) {
+                        console.error('Error during deletion:', error);
+                    }
+                });
+            });
+        });
+    </script>
     <!-- Add any additional content or scripts here -->
 </body>
 

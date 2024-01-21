@@ -42,10 +42,65 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
+        .topnav-right a {
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+
+        /* Additional styles for the side nav */
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            background-color: #f1f1f1;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #000;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav a:hover {
+            color: #007bff;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 30px;
+            margin-left: 50px;
+        }
+
+        /* Your existing styles for the top navigation */
+        .topnav-right a {
+            background-color: #007bff;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+        }
     </style>
 </head>
 
 <body>
+
+    <div class="topnav">
+        <div class="topnav-right">
+            <a href="#" onclick="openNav()">View</a>
+        </div>
+    </div>
+
     <div class="user-form">
         <h2>User Form</h2>
         <form method="post" action="/submit_user_form" enctype="multipart/form-data">
@@ -61,7 +116,7 @@
                 <!-- Hidden fields for email and password -->
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email" value="<%= email %>" readonly>
-        
+
                 <!-- Assuming you have a password variable in your template engine -->
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" value="<%= password %>" readonly>
@@ -75,7 +130,28 @@
             </div>
         </form>
     </div>
-</body>
-<script src="/script.js"></script>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <div id="userDetails"></div>
+    </div>
+    <!-- <script src="/script.js"></script> -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "300px";
+            const email = document.getElementById("email").value;
 
+            // Fetch user details using AJAX
+            fetch(`/view_user/${email}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("userDetails").innerHTML = data;
+                })
+                .catch(error => console.error(error));
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+</body>
 </html>
