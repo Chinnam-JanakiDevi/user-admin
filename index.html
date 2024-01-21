@@ -1,0 +1,104 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form class="login-form" method="post" action="/admin_login">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="adminemail" name="adminemail" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="adminpassword" name="adminpassword" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script src="/script.js"></script>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-form {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        
+
+        <!-- Buttons to switch between User Login and Admin Login forms -->
+        <div>
+            <button onclick="showUserLoginForm()">User Login</button>
+            <button onclick="showAdminLoginForm()">Admin Login</button>
+        </div>
+
+        <!-- User Login Form -->
+        <form id="userLoginForm" class="user-form" method="post" action="/user_login">
+            <h2>User Login</h2>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="useremail" name="useremail" placeholder="enter useremail" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="userpassword" name="userpassword" placeholder="enter user password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>        
+        </form>
+
+        <!-- Admin Login Form -->
+        <form id="adminLoginForm" class="login-form" method="post" action="/admin_login">
+            <h2>Admin Login</h2>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="adminemail" name="adminemail" placeholder="enter adminemail" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="adminpassword" name="adminpassword" placeholder="enter adminpassword">
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function showUserLoginForm() {
+            document.getElementById('userLoginForm').style.display = 'block';
+            document.getElementById('adminLoginForm').style.display = 'none';
+        }
+
+        function showAdminLoginForm() {
+            document.getElementById('userLoginForm').style.display = 'none';
+            document.getElementById('adminLoginForm').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

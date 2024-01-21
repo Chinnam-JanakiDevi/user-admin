@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        button {
+            padding: 8px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>View Users</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Profile Image</th>
+                <th>Action</th>
+                <th>Action</th>
+                <!-- Add more table headers as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user._id %></td>
+                    <td><%= user.name %></td>
+                    <td><img src="/images/<%= user.image %>" alt="Profile Image" width="50"></td>
+                    <td><button>Accept</button></td>
+                    <td><button>Delete</button></td>
+                    <!-- Add more table cells as needed -->
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <!-- Add any additional content or scripts here -->
+</body>
+
+</html>
